@@ -145,6 +145,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="/cicilan" class="nav-link">
+              <i class="nav-icon fas fa-credit-card"></i>
+              <p>
+                Cicilan
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="/properti" class="nav-link">
               <i class="nav-icon fas fa-building"></i>
               <p>Properti</p>

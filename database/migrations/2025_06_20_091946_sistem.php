@@ -34,8 +34,16 @@ return new class extends Migration
             $table->unsignedInteger('id_properti');
             $table->foreign('id_properti')->references('id_properti')->on('properti')->onDelete('cascade');
             $table->string('tipe_pembayaran');
-            $table->string('jlh_pembayaran');
+            $table->decimal('jlh_pembayaran', 15, 2)->default(0);
             $table->timestamps();
+        });
+        Schema::create('cicilan', function (Blueprint $table) {
+            $table->id('id_cicilan');
+            $table->unsignedInteger('id_pemasukan');
+            $table->decimal('jumlah_cicilan', 15, 2);
+            $table->date('tanggal_bayar');
+            $table->timestamps();
+            $table->foreign('id_pemasukan')->references('id_pemasukan')->on('pemasukan')->onDelete('cascade');
         });
     }
 
@@ -47,5 +55,6 @@ return new class extends Migration
         Schema::dropIfExists('properti');
         Schema::dropIfExists('klien');
         Schema::dropIfExists('pemasukan');
+        Schema::dropIfExists('cicilan');
     }
 };

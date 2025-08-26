@@ -7,6 +7,7 @@ use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\staffController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\cicilanController;
 use App\Http\Middleware\SessionTimeout;
 use App\Http\Middleware\CheckJabatan;
 
@@ -22,6 +23,9 @@ Route::middleware(['auth', SessionTimeout::class])->group(function() {
     Route::get('transaksi', [pemasukanController::class, 'transaksi'])->name('transaksi');
     Route::post('transaksi/store', [pemasukanController::class, 'transaksi_store'])->name('transaksi_store');
     Route::get('pemasukan/show/{id_pemasukan}', [pemasukanController::class, 'pemasukan_show'])->name('pemasukan_show');
+    Route::get('cicilan/', [cicilanController::class, 'cicilan'])->name('cicilan');
+    Route::get('cicilan/{id_pemasukan}', [cicilanController::class, 'cicilan_show'])->name('cicilan_show');
+    Route::post('cicilan/{id_pemasukan}', [cicilanController::class, 'cicilan_store'])->name('cicilan_store');
 
     Route::get('klien', [klienController::class, 'klien_list'])->name('klien_list');
     Route::get('klien/new', [klienController::class, 'klien_new'])->name('klien_new');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\pemasukanModel;
 use App\Models\klienModel;
 use App\Models\propertiModel;
+use App\Models\cicilanModel;
 
 use Illuminate\Http\Request;
 
@@ -28,20 +29,29 @@ class pemasukanController extends Controller
         $request->validate([
             'id_klien' => 'required|exists:klien,id_klien',
             'id_properti' => 'required|exists:properti,id_properti',
-            'tipe_pembayaran' => 'required',
             'jlh_pembayaran' => 'required',
         ]);
 
-        $data = $request->only([
-            'id_klien',
-            'id_properti',
-            'tipe_pembayaran',
-            'jlh_pembayaran'
+        $jlhPembayaran = preg_replace('/\D/', '', $request->jlh_pembayaran);
+        $jlhPembayaran = (int) $jlhPembayaran;
+
+        $properti = propertiModel::findOrFail($request->id_properti);
+        $hargaProperti = (int) $properti->harga_properti;
+
+        if ($jlhPembayaran == $hargaProperti) {
+            $tipePembayaran = 1;
+        } elseif ($jlhPembayaran < $hargaProperti) {
+            $tipePembayaran = 2;
+        } else {
+            return back()->withErrors(['jlh_pembayaran' => 'Jumlah pembayaran tidak boleh lebih dari harga properti.'])->withInput();
+        }
+
+        pemasukanModel::create([
+            'id_klien'        => $request->id_klien,
+            'id_properti'     => $request->id_properti,
+            'tipe_pembayaran' => $tipePembayaran,
+            'jlh_pembayaran'  => $jlhPembayaran,
         ]);
-
-        $data['jlh_pembayaran'] = str_replace(['Rp. ', '.'], '', $request->jlh_pembayaran);
-
-        pemasukanModel::create($data);
 
         return redirect('/pemasukan')->with('success', 'Transaksi berhasil.');
     }

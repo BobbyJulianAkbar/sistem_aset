@@ -43,17 +43,11 @@
 
             <div class="form-group">
                 <label for="tipe_pembayaran">Tipe Pembayaran</label>
-                <select class="form-control {{ session('errors.tipe_pembayaran') ? 'is-invalid' : '' }}"
-                        id="tipe_pembayaran" name="tipe_pembayaran" required>
-                    <option value="" disabled {{ old('tipe_pembayaran') ? '' : 'selected' }}>-- Pilih Tipe --</option>
-                    <option value="1" {{ old('tipe_pembayaran') == '1' ? 'selected' : '' }}>Bayar Lunas</option>
-                    <option value="2" {{ old('tipe_pembayaran') == '2' ? 'selected' : '' }}>Cicilan</option>
+                <select class="form-control" id="tipe_pembayaran" name="tipe_pembayaran" readonly>
+                      <option value="">-- Pilih Tipe --</option>
+                      <option value="1">Bayar Lunas</option>
+                      <option value="2">Cicilan</option>
                 </select>
-                @if (session('errors.tipe_pembayaran'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ session('errors.tipe_pembayaran') }}</strong>
-                    </span>
-                @endif
             </div>
 
             <div class="form-group">
@@ -126,5 +120,50 @@
         return 'Rp. ' + rupiah;
       }
     });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectProperti = document.getElementById('id_properti');
+    const hargaInput = document.getElementById('harga_properti');
+    const jlhInput = document.getElementById('jlh_pembayaran');
+    const tipePembayaran = document.getElementById('tipe_pembayaran');
+    let hargaProperti = 0;
+
+    selectProperti.addEventListener('change', function () {
+      const selectedOption = this.options[this.selectedIndex];
+      hargaProperti = parseInt(selectedOption.getAttribute('data-harga')) || 0;
+      hargaInput.value = hargaProperti ? formatRupiah(hargaProperti) : '';
+      jlhInput.value = '';
+      tipePembayaran.value = '';
+    });
+
+    jlhInput.addEventListener('input', function () {
+      let rawValue = this.value.replace(/[^0-9]/g, '');
+      let bayar = parseInt(rawValue) || 0;
+
+      // prevent lebih besar
+      if (bayar > hargaProperti) {
+        bayar = hargaProperti;
+      }
+
+      this.value = formatRupiah(bayar);
+
+      if (bayar === hargaProperti) {
+        tipePembayaran.value = "1"; // lunas
+      } else if (bayar < hargaProperti && bayar > 0) {
+        tipePembayaran.value = "2"; // cicilan
+      } else {
+        tipePembayaran.value = "";
+      }
+    });
+
+    function formatRupiah(angka) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+      }).format(angka);
+    }
+  });
 </script>
 @endsection
