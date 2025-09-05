@@ -28,6 +28,7 @@ class staffController extends Controller
             'email' => 'required',
             'status_staff' => 'required',
             'password' => 'required',
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
@@ -38,6 +39,11 @@ class staffController extends Controller
             'status_staff',
             'password'
         ]);
+
+        if ($request->hasFile('profile_picture')) {
+        $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+        $data['profile_picture'] = $path;
+        }
 
         User::create($data);
 
@@ -65,6 +71,7 @@ class staffController extends Controller
             'email' => 'required',
             'status_staff' => 'required',
             'password' => 'required',
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
@@ -75,6 +82,16 @@ class staffController extends Controller
             'status_staff',
             'password'
         ]);
+
+        if ($request->hasFile('profile_picture')) {
+        $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+
+        if ($staff->profile_picture && \Storage::disk('public')->exists($staff->profile_picture)) {
+            \Storage::disk('public')->delete($staff->profile_picture);
+        }
+
+        $data['profile_picture'] = $path;
+        }
 
         $staff = User::findOrFail($id);
         $staff->update($data);

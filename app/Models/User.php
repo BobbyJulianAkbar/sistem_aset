@@ -24,6 +24,7 @@ class User extends Authenticatable
         'jabatan',
         'telp_staff',
         'status_staff',
+        'profile_picture',
     ];
 
     /**

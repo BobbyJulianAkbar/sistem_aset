@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('staff_store') }}"action="{{ route('staff_update', ['id' => $staff['id']]) }}">
+        <form method="POST" action="{{ route('staff_update', ['id' => $staff['id']]) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -70,6 +70,23 @@
                 </select>
                 @if (session('errors.status_staff'))
                     <span class="invalid-feedback">{{ session('errors.status_staff') }}</span>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="profile_picture">Foto Profil</label>
+                <input type="file" class="form-control {{ session('errors.profile_picture') ? 'is-invalid' : '' }}"
+                       id="profile_picture" name="profile_picture" accept="image/*"
+                       value="{{ old('profile_picture', $staff['profile_picture']) }}">
+                @if($staff->profile_picture)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $staff->profile_picture) }}" 
+                            alt="Foto {{ $staff->name }}" 
+                            width="120" class="rounded shadow">
+                    </div>
+                @endif
+                @if (session('errors.profile_picture'))
+                    <span class="invalid-feedback">{{ session('errors.profile_picture') }}</span>
                 @endif
             </div>
 

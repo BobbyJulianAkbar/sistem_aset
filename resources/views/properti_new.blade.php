@@ -66,7 +66,24 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success mb-2">Submit</button>
+                <label for="status_properti">Status</label>
+                <select class="form-control {{ session('errors.status_properti') ? 'is-invalid' : '' }}"
+                        id="status_properti" name="status_properti" required>
+                    <option value="" disabled {{ old('status_properti') ? '' : 'selected' }}>-- Pilih Status --</option>
+                    <option value="1" {{ old('status_properti') == '1' ? 'selected' : '' }}>Aktif</option>
+                    <option value="2" {{ old('status_properti') == '2' ? 'selected' : '' }}>Maintenance</option>
+                    <option value="3" {{ old('status_properti') == '3' ? 'selected' : '' }}>Nonaktif</option>
+                </select>
+                @if (session('errors.status_properti'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ session('errors.status_properti') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a href="{{ route('properti_list') }}" class="btn btn-secondary">Kembali</a>
             </div>
         </form>
     </div>

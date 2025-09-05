@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('staff_store') }}">
+        <form method="POST" action="{{ route('staff_store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
@@ -95,7 +95,20 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success mb-2">Submit</button>
+                <label for="profile_picture">Foto Profil</label>
+                <input type="file" class="form-control {{ session('errors.profile_picture') ? 'is-invalid' : '' }}"
+                       id="profile_picture" name="profile_picture" accept="image/*"
+                       value="{{ old('profile_picture') }}">
+                @if (session('errors.profile_picture'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ session('errors.profile_picture') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a href="{{ route('staff_list') }}" class="btn btn-secondary">Kembali</a>
             </div>
         </form>
     </div>

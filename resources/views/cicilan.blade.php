@@ -17,7 +17,7 @@
                     <option value="">-- Pilih --</option>
                     @foreach($pemasukan as $p)
                         @php
-                            $totalPaid = $p->cicilan->sum('jumlah_cicilan');
+                            $totalPaid = $p->jlh_pembayaran; 
                             $remaining = $p->properti->harga_properti - $totalPaid;
                         @endphp
                         <option value="{{ $p->id_pemasukan }}"
@@ -58,7 +58,6 @@
     </div>
 </div>
 
-{{-- Scripts --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const selectPemasukan = document.getElementById('id_pemasukan');
@@ -66,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const namaProperti = document.getElementById('nama_properti');
     const remainingInput = document.getElementById('remaining_price');
     const form = document.getElementById('cicilanForm');
+    const jumlahCicilan = document.getElementById('jumlah_cicilan');
+
+    let remainingPrice = 0;
 
     selectPemasukan.addEventListener('change', function() {
         const selected = this.options[this.selectedIndex];
@@ -73,11 +75,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         namaKlien.value = selected.getAttribute('data-klien');
         namaProperti.value = selected.getAttribute('data-properti');
-        const remaining = selected.getAttribute('data-remaining') || 0;
-        remainingInput.value = formatRupiah(remaining);
+        remainingPrice = parseInt(selected.getAttribute('data-remaining')) || 0;
+        remainingInput.value = formatRupiah(remainingPrice);
 
-        // Update form action dynamically
         form.action = "/cicilan/" + selected.value;
+
+        jumlahCicilan.value = '';
+    });
+
+    jumlahCicilan.addEventListener('input', function(e) {
+        let rawValue = this.value.replace(/[^0-9]/g, '');
+        let bayar = parseInt(rawValue) || 0;
+
+        if (bayar > remainingPrice) {
+            bayar = remainingPrice;
+        }
+
+        this.value = formatRupiah(bayar);
     });
 
     function formatRupiah(angka) {

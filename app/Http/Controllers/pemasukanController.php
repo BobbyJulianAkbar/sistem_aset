@@ -19,7 +19,8 @@ class pemasukanController extends Controller
     public function transaksi()
     {
         $klien = klienModel::all();
-        $properti = propertiModel::all();
+        $properti = propertiModel::where('status_properti', 1)
+            ->get();
 
         return view('transaksi', compact('klien', 'properti'));
     }

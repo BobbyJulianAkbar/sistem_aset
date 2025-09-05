@@ -63,7 +63,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success mb-2">Submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
     </div>
@@ -94,7 +94,6 @@
       const input = document.getElementById('jlh_pembayaran');
   
       input.addEventListener('input', function (e) {
-        // Remove all non-digit characters
         let value = this.value.replace(/[^,\d]/g, '');
   
         if (value) {
@@ -141,7 +140,6 @@
       let rawValue = this.value.replace(/[^0-9]/g, '');
       let bayar = parseInt(rawValue) || 0;
 
-      // prevent lebih besar
       if (bayar > hargaProperti) {
         bayar = hargaProperti;
       }
@@ -149,9 +147,9 @@
       this.value = formatRupiah(bayar);
 
       if (bayar === hargaProperti) {
-        tipePembayaran.value = "1"; // lunas
+        tipePembayaran.value = "1";
       } else if (bayar < hargaProperti && bayar > 0) {
-        tipePembayaran.value = "2"; // cicilan
+        tipePembayaran.value = "2";
       } else {
         tipePembayaran.value = "";
       }

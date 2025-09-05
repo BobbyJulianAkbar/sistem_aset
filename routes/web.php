@@ -24,7 +24,6 @@ Route::middleware(['auth', SessionTimeout::class])->group(function() {
     Route::post('transaksi/store', [pemasukanController::class, 'transaksi_store'])->name('transaksi_store');
     Route::get('pemasukan/show/{id_pemasukan}', [pemasukanController::class, 'pemasukan_show'])->name('pemasukan_show');
     Route::get('cicilan/', [cicilanController::class, 'cicilan'])->name('cicilan');
-    Route::get('cicilan/{id_pemasukan}', [cicilanController::class, 'cicilan_show'])->name('cicilan_show');
     Route::post('cicilan/{id_pemasukan}', [cicilanController::class, 'cicilan_store'])->name('cicilan_store');
 
     Route::get('klien', [klienController::class, 'klien_list'])->name('klien_list');

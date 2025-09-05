@@ -51,7 +51,8 @@
             </div>
             
             <div class="form-group">
-                <button type="submit" class="btn btn-success mb-2">Submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a href="{{ route('klien_list') }}" class="btn btn-secondary">Kembali</a>
             </div>
         </form>
     </div>

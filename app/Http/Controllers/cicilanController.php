@@ -20,48 +20,40 @@ class cicilanController extends Controller
     public function cicilan_store(Request $request, $id_pemasukan)
     {
         $request->validate([
-            'jumlah_cicilan' => 'required|numeric|min:1'
-        ]);
+        'jumlah_cicilan' => 'required'
+    ]);
 
-        $pemasukan = pemasukanModel::with('cicilan','properti')->findOrFail($id_pemasukan);
+    $pemasukan = pemasukanModel::with('cicilan','properti')->findOrFail($id_pemasukan);
 
-        $totalPaid = $pemasukan->cicilan->sum('jumlah_cicilan');
+    $totalPaid = $pemasukan->jlh_pembayaran;
+    $target = $pemasukan->properti->harga_properti;
+    $remaining = max(0, $target - $totalPaid);
 
-        $target = $pemasukan->properti->harga_properti;
+    $jumlah_cicilan = (int) preg_replace('/\D/', '', $request->jumlah_cicilan);
 
-        $remaining = $target - $totalPaid;
+    if ($jumlah_cicilan > $remaining) {
+        return redirect()->back()
+            ->withErrors(['jumlah_cicilan' => 'Jumlah cicilan melebihi sisa pembayaran!']);
+    }
 
-        if ($request->jumlah_cicilan > $remaining) {
-            return redirect()->back()
-                ->withErrors(['jumlah_cicilan' => 'Jumlah cicilan melebihi sisa pembayaran!']);
-        }
+    $cicilan = new cicilanModel();
+    $cicilan->id_pemasukan = $pemasukan->id_pemasukan;
+    $cicilan->jumlah_cicilan = $jumlah_cicilan;
+    $cicilan->tanggal_bayar = now();
+    $cicilan->save();
 
-        $cicilan = new cicilanModel();
-        $cicilan->id_pemasukan = $pemasukan->id_pemasukan;
-        $cicilan->jumlah_cicilan = $request->jumlah_cicilan;
-        $cicilan->tanggal_bayar = now();
-        $cicilan->save();
+    $totalPaid += $jumlah_cicilan;
+    $pemasukan->jlh_pembayaran = $totalPaid;
 
-        $totalPaid += $request->jumlah_cicilan;
-        $pemasukan->jlh_pembayaran = $totalPaid;
-
-        if ($totalPaid >= $target) {
-            $pemasukan->status = "Bayar Lunas";
-        } else {
-            $pemasukan->status = "Cicilan";
-        }
+    if ($totalPaid >= $target) {
+        $pemasukan->tipe_pembayaran = 1;
+    } else {
+        $pemasukan->tipe_pembayaran = 2;
+    }
 
         $pemasukan->save();
 
-        return redirect()->route('cicilan_show', $id_pemasukan)
+        return redirect()->route('pemasukan_list', $id_pemasukan)
                          ->with('success', 'Cicilan berhasil ditambahkan');
-    }
-
-    public function cicilan_show($id_pemasukan)
-    {
-        $pemasukan = pemasukanModel::with(['klien','properti','cicilan'])
-            ->findOrFail($id_pemasukan);
-
-        return view('cicilan_show', compact('pemasukan'));
     }
 }

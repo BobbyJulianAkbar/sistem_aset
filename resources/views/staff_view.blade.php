@@ -71,6 +71,20 @@
             </div>
 
             <div class="form-group">
+                <label for="profile_picture">Foto Profil</label>
+                @if($staff->profile_picture)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $staff->profile_picture) }}" 
+                            alt="Foto {{ $staff->name }}" 
+                            width="120" class="rounded shadow">
+                    </div>
+                @else
+                    <input type="text" class="form-control"
+                        value="Tidak ada Foto!" readonly>
+                @endif
+            </div>
+
+            <div class="form-group">
                 <a href="{{ route('staff_list') }}" class="btn btn-secondary">Kembali</a>
             </div>
         </form>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('jabatan');
             $table->string('telp_staff');
             $table->string('status_staff');
+            $table->string('profile_picture')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

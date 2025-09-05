@@ -25,17 +25,18 @@ class propertiController extends Controller
             'harga_properti' => 'required',
             'luas_properti' => 'required',
             'tipe_properti' => 'required',
+            'status_properti' => 'required',
         ]);
 
         $data = $request->only([
             'nama_properti',
             'harga_properti',
             'luas_properti',
-            'tipe_properti'
+            'tipe_properti',
+            'status_properti'
         ]);
 
         $data['harga_properti'] = str_replace(['Rp. ', '.'], '', $data['harga_properti']);
-        $data['status_properti'] = '1';
 
         propertiModel::create($data);
 
@@ -61,13 +62,15 @@ class propertiController extends Controller
             'harga_properti' => 'required',
             'luas_properti' => 'required',
             'tipe_properti' => 'required',
+            'status_properti' => 'required',
         ]);
 
         $data = $request->only([
             'nama_properti',
             'harga_properti',
             'luas_properti',
-            'tipe_properti'
+            'tipe_properti',
+            'status_properti'
         ]);
 
         $data['harga_properti'] = str_replace(['Rp. ', '.'], '', $data['harga_properti']);
