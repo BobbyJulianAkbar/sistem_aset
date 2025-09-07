@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+  <!-- Datatables Buttons -->
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
   <!-- FullCalendar -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
   @stack('styles')
@@ -114,14 +116,22 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user panel -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
+          <div class="image">
+              @if(Auth::user()->profile_picture)
+                  <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" 
+                      class="img-circle elevation-2" 
+                      alt="{{ Auth::user()->name }}">
+              @else
+                  <img src="{{ asset('dist/img/default-user.png') }}" 
+                      class="img-circle elevation-2" 
+                      alt="Default User">
+              @endif
+          </div>
+          <div class="info">
+              <a class="d-block">{{ Auth::user()->name }}</a>
+          </div>
       </div>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -277,23 +287,27 @@
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script>
   $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-    $("#example3").DataTable({
-      "responsive": true, "lengthChange": true, "autoWidth": false,
-    }).buttons().container().appendTo(' .col-md-6:eq(0)');
-  });
+  $("#example1").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+  }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+  $('#example2').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "responsive": true,
+    "buttons": ["colvis"]
+  }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+
+  $("#example3").DataTable({
+    "responsive": true, "lengthChange": true, "autoWidth": false,
+    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+  }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+});
 </script>
 </body>
 </html>

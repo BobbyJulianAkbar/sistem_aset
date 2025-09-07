@@ -54,6 +54,18 @@ class pemasukanController extends Controller
             'jlh_pembayaran'  => $jlhPembayaran,
         ]);
 
+        if ($properti->tipe_properti == 1) {
+            $expired = now()->addYear();
+        } elseif ($properti->tipe_properti == 2) {
+            $expired = now()->addHours(2);
+        } else {
+            $expired = null;
+        }
+
+        $properti->status_properti = 2;
+        $properti->expired_at = $expired;
+        $properti->save();
+
         return redirect('/pemasukan')->with('success', 'Transaksi berhasil.');
     }
 

@@ -74,6 +74,16 @@
             </div>
 
             <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control {{ session('errors.password') ? 'is-invalid' : '' }}"
+                       id="password" name="password"
+                       value="{{ old('password', $staff['password']) }}" required>
+                @if (session('errors.password'))
+                    <span class="invalid-feedback">{{ session('errors.password') }}</span>
+                @endif
+            </div>
+
+            <div class="form-group">
                 <label for="profile_picture">Foto Profil</label>
                 <input type="file" class="form-control {{ session('errors.profile_picture') ? 'is-invalid' : '' }}"
                        id="profile_picture" name="profile_picture" accept="image/*"

@@ -59,9 +59,9 @@
                 <input type="text" class="form-control"
                        id="status_properti" name="status_properti" readonly
                        @if ($properti['status_properti'] == 1)
-                            value="Aktif"
+                            value="Tersedia"
                         @elseif ($properti['status_properti'] == 2)
-                            value="Maintenance"
+                            value="Digunakan"
                         @elseif ($properti['status_properti'] == 3)
                             value="Nonaktif"
                         @endif>

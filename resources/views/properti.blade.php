@@ -39,11 +39,11 @@
                     <td>{{ $Property['luas_properti'] }} m²</td>
                     <td>Rp. {{ number_format($Property['harga_properti'], 0, ',', '.') }}</td>
                     <td>@if ($Property['status_properti'] == 1)
-                            <span class="text-primary font-weight-bold">Aktif</span>
+                            <span class="text-success font-weight-bold">Tersedia</span>
                         @elseif ($Property['status_properti'] == 2)
-                            <span class="text-warning font-weight-bold">Maintenance</span>
+                            <span class="text-danger font-weight-bold">Digunakan</span>
                         @elseif ($Property['status_properti'] == 3)
-                            <span class="text-danger font-weight-bold">Nonaktif</span>
+                            <span class="text-secondary font-weight-bold">Nonaktif</span>
                         @endif
                     </td>
                     <td class="manage-row">

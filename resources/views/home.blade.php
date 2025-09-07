@@ -12,7 +12,7 @@
           <!-- small box -->
           <div class="small-box bg-olive">
             <div class="inner">
-              <h3>100</h3>
+              <h3>{{ $jumlahProperti }}</h3>
 
               <p>Jumlah Properti</p>
             </div>
@@ -27,7 +27,7 @@
           <!-- small box -->
           <div class="small-box bg-olive">
             <div class="inner">
-              <h3>44</h3>
+              <h3>{{ $totalKlien }}</h3>
 
               <p>Total Klien</p>
             </div>
@@ -42,7 +42,7 @@
           <!-- small box -->
           <div class="small-box bg-olive">
             <div class="inner">
-              <h3>56</h3>
+              <h3>{{ $propertiTersedia }}</h3>
 
               <p>Properti Tersedia</p>
             </div>
@@ -62,7 +62,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <h3 align="right">100</h3>
+          <h3 align="right">{{ $kumulatifTransaksi }}</h3>
         </div>
         <!-- /.card-body -->
       </div>
@@ -74,102 +74,92 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <h3 align="right">Rp. 10000000</h3>
+          <h3 align="right">Rp. {{ number_format($kumulatifPendapatan, 0, ',', '.') }}</h3>
         </div>
         <!-- /.card-body -->
       </div>
       <!-- /.card -->
-      <!-- Main row -->
-      <div class="row">
-        <!-- Left col -->
-        <section class="col-lg-6 connectedSortable">
-          <!-- Custom tabs (Charts with tabs)-->
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="fas fa-chart-pie mr-1"></i>
-                Sales
-              </h3>
-              <div class="card-tools">
-                <ul class="nav nav-pills ml-auto">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                  </li>
-                </ul>
-              </div>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-              <div class="tab-content p-0">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart"
-                     style="position: relative; height: 300px;">
-                    <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
-                 </div>
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                  <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
-                </div>
-              </div>
-            </div><!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </section>
-        <!-- /.Left col -->
-
-          <section class="col-lg-6 connectedSortable">
-          <!-- Calendar -->
-          <div class="card bg-gradient-olive">
-            <div class="card-header border-0">
-
-              <h3 class="card-title">
-                <i class="far fa-calendar-alt"></i>
-                Calendar
-              </h3>
-            <!-- /.card-header -->
-            <div class="card-body pt-0">
-              <!--The calendar -->
-              <div id="calendar" style="width: 100%"></div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </section>
-        <!-- right col -->
-      </div>
-      <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
   </section>
   <!-- /.content -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var calendarEl = document.getElementById('calendar');
-  
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        height: 400,
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek'
-        }
-      });
-  
-      calendar.render();
-    });
-  </script>
-  <style>
-    .fc .fc-col-header-cell-cushion {
-      color: white !important;
-    }
-  
-    .fc .fc-daygrid-day-number {
-      color: white !important;
-    }
-  
-    #calendar {
-      background-color: transparent;
-    }
-  </style>
+  <div class="card">
+    <div class="card-header">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <p class="card-title">Daftar Cicilan</p>
+                  </div>
+              </div>
+          </div>
+    <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped text-center">
+              <thead>
+                  <tr>
+                      <th>No</th>
+                      <th>Nama Klien</th>
+                      <th>Properti</th>
+                      <th>Status</th>
+                      <th>Pembayaran</th>
+                      <th>Aksi</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach ($pemasukan as $i => $Pemasukan)
+                      <tr>
+                          <td>{{ $i + 1 }}</td>
+                          <td>{{ $Pemasukan->klien->nama_klien ?? '-' }}</td>
+                          <td>{{ $Pemasukan->properti->nama_properti ?? '-' }}</td>
+                          <td>@if ($Pemasukan['tipe_pembayaran'] == 1)
+                              <span class="text-success font-weight-bold">Lunas</span>
+                          @elseif ($Pemasukan['tipe_pembayaran'] == 2)
+                              <span class="text-warning font-weight-bold">Cicilan</span>
+                          @endif
+                          </td>
+                          <td>Rp. {{ number_format($Pemasukan['jlh_pembayaran'], 0, ',', '.') }}</td>
+                      </tr>
+                  @endforeach
+              </tbody>
+              <tfoot>
+                  <tr>
+                      <th>No</th>
+                      <th>Nama Klien</th>
+                      <th>Properti</th>
+                      <th>Status</th>
+                      <th>Pembayaran</th>
+                      <th>Aksi</th>
+                  </tr>
+              </tfoot>
+          </table>
+    </div>
+  </div>
 @endsection
+
+@push('styles')
+<style>
+    div.dataTables_wrapper div.dt-buttons {
+        float: left;
+        margin-bottom: 10px;
+    }
+
+    div.dataTables_wrapper .dataTables_filter {
+        float: right;
+        text-align: right;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('#example1').DataTable({
+            responsive: true,
+            autoWidth: false,
+            lengthChange: false
+            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+@endpush

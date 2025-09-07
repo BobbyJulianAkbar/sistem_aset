@@ -63,8 +63,8 @@
                 <select class="form-control {{ session('errors.status_properti') ? 'is-invalid' : '' }}"
                         id="status_properti" name="status_properti" required>
                     <option disabled selected>-- Pilih Status --</option>
-                    <option value="1" {{ (old('status_properti', $properti['status_properti']) == 1) ? 'selected' : '' }}>Aktif</option>
-                    <option value="2" {{ (old('status_properti', $properti['status_properti']) == 2) ? 'selected' : '' }}>Maintenance</option>
+                    <option value="1" {{ (old('status_properti', $properti['status_properti']) == 1) ? 'selected' : '' }}>Tersedia</option>
+                    <option value="2" {{ (old('status_properti', $properti['status_properti']) == 2) ? 'selected' : '' }}>Digunakan</option>
                     <option value="3" {{ (old('status_properti', $properti['status_properti']) == 3) ? 'selected' : '' }}>Nonaktif</option>
                 </select>
                 @if (session('errors.status_properti'))

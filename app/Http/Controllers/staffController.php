@@ -74,6 +74,8 @@ class staffController extends Controller
             'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        $staff = User::findOrFail($id);
+
         $data = $request->only([
             'name',
             'jabatan',
@@ -84,16 +86,19 @@ class staffController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-        $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
 
-        if ($staff->profile_picture && \Storage::disk('public')->exists($staff->profile_picture)) {
-            \Storage::disk('public')->delete($staff->profile_picture);
+            if ($staff->profile_picture && \Storage::disk('public')->exists($staff->profile_picture)) {
+                \Storage::disk('public')->delete($staff->profile_picture);
+            }
+
+            $data['profile_picture'] = $path;
         }
 
-        $data['profile_picture'] = $path;
+        if ($request->filled('password')) {
+            $data['password'] = $request->password;
         }
 
-        $staff = User::findOrFail($id);
         $staff->update($data);
 
         return redirect('/staff')->with('success', 'Staff berhasil diperbarui.');

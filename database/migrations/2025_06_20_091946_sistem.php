@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('tipe_properti');
             $table->string('harga_properti');
             $table->string('status_properti');
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
         Schema::create('klien', function (Blueprint $table) {
