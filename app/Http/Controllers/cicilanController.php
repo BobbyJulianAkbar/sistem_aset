@@ -39,7 +39,6 @@ class cicilanController extends Controller
     $cicilan = new cicilanModel();
     $cicilan->id_pemasukan = $pemasukan->id_pemasukan;
     $cicilan->jumlah_cicilan = $jumlah_cicilan;
-    $cicilan->tanggal_bayar = now();
     $cicilan->save();
 
     $totalPaid += $jumlah_cicilan;

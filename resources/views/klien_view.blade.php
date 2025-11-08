@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Klien')
+@section('title', 'Rincian Klien')
 
 @section('content')
 <div class="card">
@@ -41,6 +41,13 @@
                 <input type="text" class="form-control"
                        id="email_klien" name="email_klien"
                        value="{{ $klien['email_klien'] }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="created_at">Tanggal/Waktu Terdaftar</label>
+                <input type="datetime-local" class="form-control"
+                       id="created_at" name="created_at" readonly
+                       value="{{ $klien['created_at'] ?? '-' }}">
             </div>
 
             <div class="form-group">

@@ -99,7 +99,6 @@
                       <th>Properti</th>
                       <th>Status</th>
                       <th>Pembayaran</th>
-                      <th>Aksi</th>
                   </tr>
               </thead>
               <tbody>
@@ -125,7 +124,6 @@
                       <th>Properti</th>
                       <th>Status</th>
                       <th>Pembayaran</th>
-                      <th>Aksi</th>
                   </tr>
               </tfoot>
           </table>

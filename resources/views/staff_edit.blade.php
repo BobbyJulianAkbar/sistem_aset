@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Staff')
+@section('title', 'Edit Staffa')
 
 @section('content')
 <div class="card">

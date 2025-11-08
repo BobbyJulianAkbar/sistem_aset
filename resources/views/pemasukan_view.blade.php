@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Detail Pemasukan')
+@section('title', 'Rincian Pemasukan')
 
 @section('content')
 <div class="card">
@@ -42,6 +42,20 @@
                         @elseif ($pemasukan['tipe_pembayaran'] == 2)
                             value="Cicilan"
                         @endif>
+            </div>
+            
+            <div class="form-group">
+                <label for="created_at">Tanggal/Waktu Transaksi Awal</label>
+                <input type="datetime-local" class="form-control"
+                       id="created_at" name="created_at" readonly
+                       value="{{ $pemasukan['created_at'] ?? '-' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="updated_at">Tanggal/Waktu Transaksi Terakhir</label>
+                <input type="datetime-local" class="form-control"
+                       id="updated_at" name="updated_at" readonly
+                       value="{{ $pemasukan['updated_at'] ?? '-' }}">
             </div>
 
             <div class="form-group">

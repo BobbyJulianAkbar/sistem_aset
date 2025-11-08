@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Staff')
+@section('title', 'Rincian Staff')
 
 @section('content')
 <div class="card">
@@ -57,6 +57,13 @@
                 <input type="text" class="form-control"
                        id="email" name="email"
                        value="{{ $staff['email'] }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="created_at">Tanggal/Waktu Terdaftar</label>
+                <input type="datetime-local" class="form-control"
+                       id="created_at" name="created_at" readonly
+                       value="{{ $staff['created_at'] ?? '-' }}">
             </div>
 
             <div class="form-group">

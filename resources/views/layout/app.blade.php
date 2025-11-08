@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PT Supra Uniland Utama</title>
-
+  <title>@yield('title', 'PT Supra Uniland Utama')</title>
+  <link rel="icon" type="image/png" href="{{ asset('dist/img/uniland_logo.png') }}">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -289,7 +289,44 @@
   $(function () {
   $("#example1").DataTable({
     "responsive": true, "lengthChange": false, "autoWidth": false,
-    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    "buttons": [
+        {
+          extend: "copy",
+          text: "Copy",
+          exportOptions: {
+            columns: ":not(:last-child)"
+          }
+        },
+        {
+          extend: "csv",
+          text: "CSV",
+          exportOptions: {
+            columns: ":not(:last-child)"
+          }
+        },
+        {
+          extend: "excel",
+          text: "Excel",
+          exportOptions: {
+            columns: ":not(:last-child)"
+          }
+        },
+        {
+          extend: "pdf",
+          text: "PDF",
+          exportOptions: {
+            columns: ":not(:last-child)"
+          }
+        },
+        {
+          extend: "print",
+          text: "Print",
+          exportOptions: {
+            columns: ":not(:last-child)"
+          }
+        },
+        "colvis"
+      ]
   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
   $('#example2').DataTable({

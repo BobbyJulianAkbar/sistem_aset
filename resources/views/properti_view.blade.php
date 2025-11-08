@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Edit Properti')
+@section('title', 'Rincian Properti')
 
 @section('content')
 <div class="card">
@@ -52,6 +52,13 @@
                         @elseif ($properti['tipe_properti'] == 2)
                             value="Meeting Room"
                         @endif>
+            </div>
+
+            <div class="form-group">
+                <label for="created_at">Tanggal/Waktu Terdaftar</label>
+                <input type="datetime-local" class="form-control"
+                       id="created_at" name="created_at" readonly
+                       value="{{ $properti['created_at'] ?? '-' }}">
             </div>
 
             <div class="form-group">

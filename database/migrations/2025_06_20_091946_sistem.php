@@ -42,7 +42,6 @@ return new class extends Migration
             $table->id('id_cicilan');
             $table->unsignedInteger('id_pemasukan');
             $table->decimal('jumlah_cicilan', 15, 2);
-            $table->date('tanggal_bayar');
             $table->timestamps();
             $table->foreign('id_pemasukan')->references('id_pemasukan')->on('pemasukan')->onDelete('cascade');
         });
