@@ -26,6 +26,7 @@ class propertiController extends Controller
             'luas_properti' => 'required',
             'tipe_properti' => 'required',
             'status_properti' => 'required',
+            'properti_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
@@ -37,6 +38,11 @@ class propertiController extends Controller
         ]);
 
         $data['harga_properti'] = str_replace(['Rp. ', '.'], '', $data['harga_properti']);
+
+        if ($request->hasFile('properti_picture')) {
+        $path = $request->file('properti_picture')->store('properti_pictures', 'public');
+        $data['properti_picture'] = $path;
+        }
 
         propertiModel::create($data);
 
@@ -63,6 +69,7 @@ class propertiController extends Controller
             'luas_properti' => 'required',
             'tipe_properti' => 'required',
             'status_properti' => 'required',
+            'properti_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $data = $request->only([
@@ -74,7 +81,19 @@ class propertiController extends Controller
         ]);
 
         $data['harga_properti'] = str_replace(['Rp. ', '.'], '', $data['harga_properti']);
+
         $properti = propertiModel::findOrFail($id);
+
+        if ($request->hasFile('properti_picture')) {
+            $path = $request->file('properti_picture')->store('properti_pictures', 'public');
+
+            if ($properti->properti_picture && \Storage::disk('public')->exists($properti->properti_picture)) {
+                \Storage::disk('public')->delete($properti->properti_picture);
+            }
+
+            $data['properti_picture'] = $path;
+        }
+        
         $properti->update($data);
 
         return redirect('/properti')->with('success', 'Properti berhasil diperbarui.');

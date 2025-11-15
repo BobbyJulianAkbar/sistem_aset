@@ -16,6 +16,7 @@ class propertiModel extends Model
         'luas_properti',
         'tipe_properti',
         'harga_properti',
-        'status_properti'
+        'status_properti',
+        'properti_picture',
     ];
 }

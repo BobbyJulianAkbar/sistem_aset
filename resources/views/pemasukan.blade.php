@@ -93,8 +93,20 @@
         </div>
         <!-- /.card-body -->
     </div>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", function () {
+            const btn = this.querySelector('button[type="submit"]');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = "Deleting...";
+            }
+        });
+    });
+});
+</script>
 @endsection
-
 @push('styles')
 <style>
     div.dataTables_wrapper div.dt-buttons {
@@ -111,17 +123,4 @@
         vertical-align: middle;
     }
 </style>
-@endpush
-
-@push('scripts')
-<script>
-    $(document).ready(function () {
-        $('#example1').DataTable({
-            responsive: true,
-            autoWidth: false,
-            lengthChange: false
-            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
 @endpush

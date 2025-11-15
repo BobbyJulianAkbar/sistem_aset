@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('properti_update', ['id_properti' => $properti['id_properti']]) }}">
+        <form method="POST" action="{{ route('properti_update', ['id_properti' => $properti['id_properti']]) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -73,6 +73,23 @@
             </div>
 
             <div class="form-group">
+                <label for="properti_picture">Foto Profil</label>
+                <input type="file" class="form-control {{ session('errors.properti_picture') ? 'is-invalid' : '' }}"
+                       id="properti_picture" name="properti_picture" accept="image/*"
+                       value="{{ old('properti_picture', $properti['properti_picture']) }}">
+                @if($properti->properti_picture)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $properti->properti_picture) }}" 
+                            alt="Foto {{ $properti->name }}" 
+                            width="120" class="rounded shadow">
+                    </div>
+                @endif
+                @if (session('errors.properti_picture'))
+                    <span class="invalid-feedback">{{ session('errors.properti_picture') }}</span>
+                @endif
+            </div>
+
+            <div class="form-group">
                 <button type="submit" class="btn btn-success">Update</button>
                 <a href="{{ route('properti_list') }}" class="btn btn-secondary">Batal</a>
             </div>
@@ -109,4 +126,13 @@
       }
     });
   </script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form").addEventListener("submit", function () {
+        const btn = this.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.innerHTML = "Processing...";
+    });
+});
+</script>
 @endsection

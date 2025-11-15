@@ -22,6 +22,7 @@
                     <th>Luas</th>
                     <th>Harga</th>
                     <th>Status</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -44,6 +45,15 @@
                             <span class="text-danger font-weight-bold">Digunakan</span>
                         @elseif ($Property['status_properti'] == 3)
                             <span class="text-secondary font-weight-bold">Nonaktif</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($Property->properti_picture)
+                            <img src="{{ asset('storage/' . $Property->properti_picture) }}" 
+                                alt="Foto {{ $Property->nama_properti }}" 
+                                width="80" class="rounded shadow">
+                        @else
+                            -
                         @endif
                     </td>
                     <td class="manage-row">
@@ -95,12 +105,26 @@
                     <th>Luas</th>
                     <th>Harga</th>
                     <th>Status</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </tfoot>
         </table>
     </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", function () {
+            const btn = this.querySelector('button[type="submit"]');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = "Deleting...";
+            }
+        });
+    });
+});
+</script>
 @endsection
 
 @push('styles')
@@ -119,17 +143,4 @@
         vertical-align: middle;
     }
 </style>
-@endpush
-
-@push('scripts')
-<script>
-    $(document).ready(function () {
-        $('#example1').DataTable({
-            responsive: true,
-            autoWidth: false,
-            lengthChange: false
-            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
 @endpush

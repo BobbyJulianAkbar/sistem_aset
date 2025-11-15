@@ -75,6 +75,20 @@
             </div>
 
             <div class="form-group">
+                <label for="properti_picture">Foto Profil</label>
+                @if($properti->properti_picture)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $properti->properti_picture) }}" 
+                            alt="Foto {{ $properti->name }}" 
+                            width="120" class="rounded shadow">
+                    </div>
+                @else
+                    <input type="text" class="form-control"
+                        value="Tidak ada Foto!" readonly>
+                @endif
+            </div>
+
+            <div class="form-group">
                 <a href="{{ route('properti_list') }}" class="btn btn-secondary">Kembali</a>
             </div>
         </form>

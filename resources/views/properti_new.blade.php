@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('properti_store') }}">
+        <form method="POST" action="{{ route('properti_store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-group">
@@ -81,6 +81,18 @@
             </div>
 
             <div class="form-group">
+                <label for="properti_picture">Foto Profil</label>
+                <input type="file" class="form-control {{ session('errors.properti_picture') ? 'is-invalid' : '' }}"
+                       id="properti_picture" name="properti_picture" accept="image/*"
+                       value="{{ old('properti_picture') }}">
+                @if (session('errors.properti_picture'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ session('errors.properti_picture') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="form-group">
                 <button type="submit" class="btn btn-success">Submit</button>
                 <a href="{{ route('properti_list') }}" class="btn btn-secondary">Kembali</a>
             </div>
@@ -105,5 +117,12 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         this.value = rupiah ? 'Rp. ' + rupiah : '';
     });
+    document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form").addEventListener("submit", function () {
+        const btn = this.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.innerHTML = "Processing...";
+    });
+});
 </script>
 @endsection
